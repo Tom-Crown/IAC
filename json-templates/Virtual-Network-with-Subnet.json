@@ -1,0 +1,64 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VirtualNetworkAPIVersion": {
+            "type": "string",
+            "defaultValue": "2022-01-01",
+            "metadata": {
+                "description": "Virtual Network API Version"
+            }
+        },
+        "vnetName": {
+            "type": "string",
+            "defaultValue": "IaC-101-VNet1",
+            "metadata": {
+                "description": "VNet name"
+            }
+        },
+        "vnetprefix": {
+            "type": "string",
+            "defaultValue": "192.168.0.0/16",
+            "metadata": {
+                "description": "VNet prefix"
+            }
+        },
+        "subnet1Name": {
+            "type": "string",
+            "defaultValue": "IaC-101-VNet1-Subnet1",
+            "metadata": {
+                "description": "Subnet 1 Name"
+            }
+        },
+        "subnet1Prefix": {
+            "type": "string",
+            "defaultValue": "192.168.1.0/24",
+            "metadata": {
+                "description": "Subnet 1 Prefix"
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('vnetName')]",
+            "apiVersion": "[parameters('VirtualNetworkAPIVersion')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('vnetprefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet1Prefix')]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
